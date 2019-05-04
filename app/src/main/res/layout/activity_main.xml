@@ -30,7 +30,7 @@
         app:layout_constraintBottom_toTopOf="@+id/switch_enable_stt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:onClick="callPlayback"
+        android:onClick="callRecording"
         />
 
     <Switch
