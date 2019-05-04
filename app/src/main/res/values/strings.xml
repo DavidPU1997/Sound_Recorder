@@ -4,4 +4,11 @@
     <string name="enable_speech_to_text">Enable speech-to-text</string>
     <string name="recording">Recording</string>
     <string name="home">Home</string>
+    <string name="playback">playback</string>
+    <string name="recordArea">RECORD AREA</string>
+    <string name="btnStartRecord">RECORD</string>
+    <string name="btnStopRecord">STOP RECORD</string>
+    <string name="PlayArea">PLAY AREA</string>
+    <string name="btnPlay">PLAY</string>
+    <string name="btnStop">STOP</string>
 </resources>
