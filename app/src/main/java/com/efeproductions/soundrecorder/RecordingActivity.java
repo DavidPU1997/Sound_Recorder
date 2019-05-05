@@ -32,20 +32,17 @@ public class RecordingActivity extends AppCompatActivity {
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_main);
+            setContentView(R.layout.activity_recording);
 
             //Request Runtime permissions
             if(!checkPermissionFromDevice())
                 requestPermissions();
 
             //init view
-            btnPlay = findViewById(R.id.btnPlay);
-            btnRecord = findViewById(R.id.btnStartRecord);
-            btnStop = findViewById(R.id.btnStop);
-            btnStopRecord = findViewById(R.id.btnStopRecord);
-
-
-
+            btnPlay = (Button)findViewById(R.id.btnPlay);
+            btnRecord = (Button)findViewById(R.id.btnStartRecord);
+            btnStop = (Button)findViewById(R.id.btnStop);
+            btnStopRecord = (Button)findViewById(R.id.btnStopRecord);
 
                 btnRecord.setOnClickListener(new View.OnClickListener() {
                     @Override
