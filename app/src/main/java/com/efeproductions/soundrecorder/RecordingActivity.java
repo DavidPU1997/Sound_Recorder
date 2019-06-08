@@ -39,10 +39,10 @@ public class RecordingActivity extends AppCompatActivity {
                 requestPermissions();
 
             //init view
-            btnPlay = (Button)findViewById(R.id.btnPlay);
-            btnRecord = (Button)findViewById(R.id.btnStartRecord);
-            btnStop = (Button)findViewById(R.id.btnStop);
-            btnStopRecord = (Button)findViewById(R.id.btnStopRecord);
+            btnPlay = findViewById(R.id.btnPlay);
+            btnRecord = findViewById(R.id.btnStartRecord);
+            btnStop = findViewById(R.id.btnStop);
+            btnStopRecord = findViewById(R.id.btnStopRecord);
 
                 btnRecord.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -120,7 +120,7 @@ public class RecordingActivity extends AppCompatActivity {
 
     private void setupMediaRecorder() {
             mediaRecorder = new MediaRecorder();
-            mediaRecorder.setAudioChannels(MediaRecorder.AudioSource.MIC);
+            mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
             mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
             mediaRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
             mediaRecorder.setOutputFile(pathSave);
