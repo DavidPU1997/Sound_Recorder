@@ -10,8 +10,10 @@
     <color name="white">#FFFFFF</color>
     <color name="tabstrip">#B42929</color>
 
+
     <color name="backgroundColor">#f0eff5</color>
-    //indijc ma text, js mam textColor
+    <!--//indijc ma text, js mam textColor-->
+
     <color name="textColor">#FFFFFF</color>
     <color name="recordButton">#bc574e</color>
     <color name="recordButtonStroke">#d9d9d9</color>

@@ -11,4 +11,5 @@
     <string name="PlayArea">PLAY AREA</string>
     <string name="btnPlay">PLAY</string>
     <string name="btnStop">STOP</string>
+    <string name="playback_home_btn">Playback</string>
 </resources>
