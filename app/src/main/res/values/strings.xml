@@ -7,7 +7,7 @@
     <string name="playback">playback</string>
     <string name="recordArea">RECORD AREA</string>
     <string name="btnStartRecord">RECORD</string>
-    <string name="btnStopRecord">STOP RECORDING</string>
+    <string name="btnStopRecord">STOP  \n RECORDING</string>
     <string name="PlayArea">PLAY AREA</string>
     <string name="btnPlay">PLAY</string>
     <string name="btnStop">STOP</string>
