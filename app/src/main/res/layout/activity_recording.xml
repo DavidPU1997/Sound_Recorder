@@ -8,6 +8,10 @@
     tools:context=".PlaybackActivity"
     android:background="@color/backgroundColor"
     >
+    <include
+        layout="@layout/toolbar"
+        android:id="@+id/toolbar">
+    </include>
     <TextView
         android:textSize="50sp"
         android:text="@string/recordArea"

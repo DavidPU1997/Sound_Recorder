@@ -1,43 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    tools:context="com.efeproductions.soundrecorder.MainActivity"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".MainActivity"
+android:background="@color/backgroundColor"
     >
 
-    <include
-        layout="@layout/toolbar"
-        android:id="@+id/toolbar">
-    </include>
+<include
+    layout="@layout/toolbar"
+    android:id="@+id/toolbar">
+</include>
 
-    <com.astuetz.PagerSlidingTabStrip
-        android:layout_width = "match_parent"
-        android:layout_height = "?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        android:elevation="4dp"
-        android:id="@+id/tabstrip"
-        app:pstsIndicatorColor="@color/tabstrip"
-        app:pstsIndicatorHeight="5dp"
-        app:pstsShouldExpand="true">
+    <Button
+        android:id="@+id/bRecord"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="100dp"
+        android:background="@drawable/mainbutton"
+        android:onClick="callRecording"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"
+        android:text="@string/start_recording"
+        android:textColor="#FFFFFF"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toTopOf="@+id/playback_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-    </com.astuetz.PagerSlidingTabStrip>
-
-    <android.support.v4.view.ViewPager
-        android:layout_width = "match_parent"
-        android:layout_height = "0px"
-        android:layout_weight = "1"
-        android:id="@+id/pager"
-        android:background="@android:color/white"
-        >
-    </android.support.v4.view.ViewPager>
-
-    <FrameLayout
-        android:layout_width = "match_parent"
-        android:layout_height = "match_parent"
-        android:id="@+id/container">
-
-    </FrameLayout>
-</LinearLayout>
+    <Button
+        android:id="@+id/playback_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="40dp"
+        android:onClick="callPlayback"
+        android:text="SAVED RECORDINGS"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</android.support.constraint.ConstraintLayout>

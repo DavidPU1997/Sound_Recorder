@@ -7,6 +7,10 @@
     tools:context=".PlaybackActivity"
     android:background="@color/backgroundColor"
     >
+    <include
+        layout="@layout/toolbar"
+        android:id="@+id/toolbar">
+    </include>
 
     <Button
         android:id="@+id/button"
