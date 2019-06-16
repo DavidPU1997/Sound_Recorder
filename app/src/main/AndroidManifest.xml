@@ -13,10 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RecordingActivity"
-            android:label="Sound Recorder"
-            ></activity>
-        <activity android:name=".PlaybackActivity" />
+
         <activity android:name=".MainActivity"
             android:label="Sound Recorder"
             >
@@ -26,6 +23,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".PlaybackActivity" />
     </application>
 
 </manifest>

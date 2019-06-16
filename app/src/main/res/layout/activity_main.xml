@@ -13,15 +13,28 @@ android:background="@color/backgroundColor"
     android:id="@+id/toolbar">
 </include>
 
+    <Chronometer
+        android:id="@+id/timer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:textSize="50sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/btnStopRecord"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
     <Button
-        android:id="@+id/bRecord"
+        android:id="@+id/btnStartRecord"
         android:layout_width="350dp"
         android:layout_height="350dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="100dp"
         android:background="@drawable/mainbutton"
-        android:onClick="callRecording"
         android:shadowColor="#A8A8A8"
         android:shadowDx="0"
         android:shadowDy="0"
@@ -29,9 +42,25 @@ android:background="@color/backgroundColor"
         android:text="@string/start_recording"
         android:textColor="#FFFFFF"
         android:textSize="40sp"
+        android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/playback_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnStopRecord"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="200dp"
+        android:text="@string/btnStopRecord"
+        android:textColor="#FFFFFF"
+        android:textSize="25sp"
+        android:background="@drawable/stop_recording_draw"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/playback_btn"
+        app:layout_constraintEnd_toEndOf="@+id/toolbar"
+        app:layout_constraintStart_toStartOf="@+id/toolbar" />
 
     <Button
         android:id="@+id/playback_btn"

@@ -12,6 +12,7 @@
 
 
     <color name="backgroundColor">#f0eff5</color>
+    <color name="backgroundPopup">#CCCCCC</color>
     <!--//indijc ma text, js mam textColor-->
 
     <color name="textColor">#FFFFFF</color>
