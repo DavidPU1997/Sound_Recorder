@@ -28,7 +28,7 @@
             android:grantUriPermissions="true"
             android:exported="false">
 
-            <meta-data android:name="android.support.FILE_PROVIDER_PATH"
+            <meta-data android:name="android.support.FILE_PROVIDER_PARTHS"
                 android:resource="@xml/filepaths">
             </meta-data>
         </provider>
