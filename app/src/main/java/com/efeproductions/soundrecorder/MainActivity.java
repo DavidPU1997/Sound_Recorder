@@ -48,14 +48,7 @@ public class MainActivity extends AppCompatActivity {
     MediaRecorder mediaRecorder;
     Chronometer timer;
     final int REQUEST_PERMISSION_CODE = 1000;
-    Context maContext;
 
-    PopupWindow popUp;
-    LinearLayout layout;
-    TextView tv;
-    LinearLayout.LayoutParams params;
-    Button but;
-    boolean click = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,14 +71,17 @@ public class MainActivity extends AppCompatActivity {
                 btnRecord.setVisibility(View.GONE);
                 btnStopRecord.setVisibility(View.VISIBLE);
                 timer.setVisibility(View.VISIBLE);
+
+                btnStopRecord.setEnabled(true);
+                timer.start();
                 //from Android M , you need request Run time permission
                 if (checkPermissionFromDevice()) {
                     //stevilo recordingov
                     int stRec = countRecordings();
                     stRec++;
                     // direktorij, ime datoteke
-                    pathSave = Environment.getExternalStorageDirectory().getAbsolutePath() + "/SoundRecorder/" + "New Recording " + stRec + ".3gp";
-
+                    //pathSave = Environment.getExternalStorageDirectory().getAbsolutePath() + "/SoundRecorder/" + "New Recording " + stRec + ".3gp";
+                    pathSave = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + UUID.randomUUID().toString() + "_audio_record.3gp";
 
                     setupMediaRecorder();
                     try{
@@ -106,12 +102,20 @@ public class MainActivity extends AppCompatActivity {
         btnStopRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                timer.stop();
                 mediaRecorder.stop();
-                //btnRecord.setVisibility(View.VISIBLE);
-                //btnStopRecord.setVisibility(View.INVISIBLE);
-                //timer.setVisibility(View.INVISIBLE);
+                mediaRecorder.reset();
+                mediaRecorder.release();
+                mediaRecorder = null;
+
+                btnStopRecord.setEnabled(false);
+                btnRecord.setVisibility(View.VISIBLE);
+                btnStopRecord.setVisibility(View.INVISIBLE);
+                timer.setVisibility(View.INVISIBLE);
 
                 showPopupWindow(v);
+
+                //Log.d("lalal", pathSave);
 
                 //display the keyboard
                 /*EditText editText = (EditText) findViewById(R.id.editTextName);
