@@ -4,61 +4,85 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Environment;
+import android.os.FileObserver;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public class PlaybackActivity extends AppCompatActivity {
 
-    private static final int MY_PERMISSION_REQUEST = 1;
-    ArrayList<String> arrayList;
-
-    ListView listView;
-
-    ArrayAdapter<String> adapter;
-
-
-
-
-    private List<String> fileList = new ArrayList<String>();
-
-
+    ListView myListViewForSongs;
+    String[] items;
+    final int REQUEST_PERMISSION_CODE = 1000;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playback);
 
-        if(ContextCompat.checkSelfPermission(PlaybackActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-            if(ActivityCompat.shouldShowRequestPermissionRationale(PlaybackActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)){
-                ActivityCompat.requestPermissions(PlaybackActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSION_REQUEST);
-            }
-            else{
-                ActivityCompat.requestPermissions(PlaybackActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSION_REQUEST);
-            }
-        }
-        else{
-            doStuff();
-        }
+        myListViewForSongs = (ListView) findViewById(R.id.myListView);
+
+
     }
 
-    private void doStuff() {
-        File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/SoundRecorder/");
-        File[] files = f.listFiles();
-        fileList.clear();
-        for(File file : files){
-            fileList.add(file.getPath());
+
+    public ArrayList<File> findSong(File file){
+        ArrayList<File> arrayList = new ArrayList<>();
+
+        File[] files = file.listFiles();
+
+        for(File singleFile: files){
+            if(singleFile.isDirectory() && !singleFile.isHidden()){
+                arrayList.addAll(findSong(singleFile));
+            }
+            else{
+                if(singleFile.getName().endsWith(".3gp")){
+                    arrayList.add(singleFile);
+                }
+            }
         }
-        ArrayAdapter<String> directoryList = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, fileList);
+        return arrayList;
     }
+
+    void display(){
+        final ArrayList<File> mySongs = findSong(Environment.getExternalStorageDirectory());
+
+        items = new String[mySongs.size()];
+
+        for(int i = 0; i < mySongs.size(); i++){
+            Objects.requireNonNull(items[i] = mySongs.get(i).getName().toString().replace(".3gp", ""));
+        }
+
+        ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1
+        );
+        myListViewForSongs.setAdapter(myAdapter);
+    }
+
 
     public void callHome(View v){
         Intent home = new Intent(this, MainActivity.class);
