@@ -164,7 +164,12 @@ public class MainActivity extends AppCompatActivity {
     private static int countRecordings() {
         File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/SoundRecorder/");
         File[] files = dir.listFiles();
-        return files.length;
+        if(files == null){
+            return 0;
+        }
+        else {
+            return files.length;
+        }
     }
 
     public void callPlayback(View v) {
