@@ -231,6 +231,7 @@ public class MainActivity extends AppCompatActivity {
         nameFileBuilder.setView(view);
         AlertDialog alert = nameFileBuilder.create();
         alert.show();
+
     }
 
 
