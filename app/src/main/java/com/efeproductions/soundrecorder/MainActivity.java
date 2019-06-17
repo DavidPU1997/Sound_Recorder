@@ -29,6 +29,8 @@ package com.efeproductions.soundrecorder;
         import android.widget.EditText;
         import android.widget.LinearLayout;
         import android.widget.PopupWindow;
+        import android.widget.RelativeLayout;
+        import android.widget.TextView;
         import android.widget.Toast;
         import java.io.BufferedWriter;
         import java.io.File;
@@ -41,12 +43,19 @@ package com.efeproductions.soundrecorder;
 public class MainActivity extends AppCompatActivity {
 
     //declare variables
-    Button btnRecord, btnStopRecord;//, btnPlay, btnStop, startButton;
+    Button btnRecord, btnStopRecord, btnCancel;
     String pathSave = "";
     MediaRecorder mediaRecorder;
     Chronometer timer;
     final int REQUEST_PERMISSION_CODE = 1000;
     Context maContext;
+
+    PopupWindow popUp;
+    LinearLayout layout;
+    TextView tv;
+    LinearLayout.LayoutParams params;
+    Button but;
+    boolean click = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,9 +80,13 @@ public class MainActivity extends AppCompatActivity {
                 timer.setVisibility(View.VISIBLE);
                 //from Android M , you need request Run time permission
                 if (checkPermissionFromDevice()) {
+                    //stevilo recordingov
+                    int stRec = countRecordings();
+                    stRec++;
+                    // direktorij, ime datoteke
+                    pathSave = Environment.getExternalStorageDirectory().getAbsolutePath() + "/SoundRecorder/" + "New Recording " + stRec + ".3gp";
 
 
-                    pathSave = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + UUID.randomUUID().toString() + "_audio_record.3gp";
                     setupMediaRecorder();
                     try{
                         mediaRecorder.prepare();
@@ -97,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
                 //btnRecord.setVisibility(View.VISIBLE);
                 //btnStopRecord.setVisibility(View.INVISIBLE);
                 //timer.setVisibility(View.INVISIBLE);
+
                 showPopupWindow(v);
 
                 //display the keyboard
@@ -107,8 +121,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
 
     private void requestPermissions() {
@@ -149,6 +161,12 @@ public class MainActivity extends AppCompatActivity {
         mediaRecorder.setOutputFile(pathSave);
     }
 
+    private static int countRecordings() {
+        File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/SoundRecorder/");
+        File[] files = dir.listFiles();
+        return files.length;
+    }
+
     public void callPlayback(View v) {
         Intent playback = new Intent(this, PlaybackActivity.class);
         startActivity(playback);
@@ -156,9 +174,10 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public void showPopupWindow(View view) {
+    /*public void showPopupWindow(View view) {
 
         btnRecord.setEnabled(false); //da ne mores po nesreci kliknit gumba record
+        btnStopRecord.setEnabled(false);
 
         // inflate the layout of the popup window
         LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -175,6 +194,44 @@ public class MainActivity extends AppCompatActivity {
         // show the popup window
         // which view you pass in doesn't matter, it is only used for the window tolken
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+        btnCancel = findViewById(R.id.cancelRecording);
+    }*/
+
+    public void showPopupWindow(View v){
+        AlertDialog.Builder nameFileBuilder = new AlertDialog.Builder(this);
+
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.dialog_name_file, null);
+
+        final EditText input = (EditText) view.findViewById(R.id.new_name);
+
+        nameFileBuilder.setTitle(this.getString(R.string.dialog_title_name));
+        nameFileBuilder.setCancelable(true);
+        nameFileBuilder.setPositiveButton(this.getString(R.string.dialog_action_ok),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        try {
+                            Log.d("pritisnil si ok", "jajaja");
+
+                        } catch (Exception e) {
+                            Log.d("Error pri temule", e.toString());
+                        }
+
+                        dialog.cancel();
+                    }
+                });
+        nameFileBuilder.setNegativeButton(this.getString(R.string.dialog_action_delete),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        nameFileBuilder.setView(view);
+        AlertDialog alert = nameFileBuilder.create();
+        alert.show();
     }
+
 
 }

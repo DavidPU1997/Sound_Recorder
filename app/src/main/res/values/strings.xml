@@ -13,7 +13,7 @@
     <string name="btnStop">STOP</string>
     <string name="playback_home_btn">Playback</string>
     <string name="recordingNameHint">Set a name for the recording</string>
-    <string name="dialog_title_rename">Rename File</string>
+    <string name="dialog_title_name">Name File</string>
     <string name="dialog_action_ok">OK</string>
-    <string name="dialog_action_cancel">Cancel</string>
+    <string name="dialog_action_delete">Delete recording</string>
 </resources>
