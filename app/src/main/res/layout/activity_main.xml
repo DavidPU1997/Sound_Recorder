@@ -8,10 +8,9 @@ tools:context=".MainActivity"
 android:background="@color/backgroundColor"
     >
 
-<include
-    layout="@layout/toolbar"
-    android:id="@+id/toolbar">
-</include>
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"></include>
 
     <Chronometer
         android:id="@+id/timer"

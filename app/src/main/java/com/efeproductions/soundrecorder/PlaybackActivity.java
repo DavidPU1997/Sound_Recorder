@@ -15,6 +15,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -40,16 +41,18 @@ public class PlaybackActivity extends AppCompatActivity {
     ListView myListViewForSongs;
     String[] items;
     final int REQUEST_PERMISSION_CODE = 1000;
+
+    //ZA SWIPE
+    float x1, x2, y1, y2;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playback);
 
         myListViewForSongs = (ListView) findViewById(R.id.myListView);
-
+        display();
 
     }
-
 
     public ArrayList<File> findSong(File file){
         ArrayList<File> arrayList = new ArrayList<>();
@@ -87,5 +90,24 @@ public class PlaybackActivity extends AppCompatActivity {
     public void callHome(View v){
         Intent home = new Intent(this, MainActivity.class);
         startActivity(home);
+    }
+
+    public boolean onTouchEvent(MotionEvent touchEvent) {
+        switch (touchEvent.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                x1 = touchEvent.getX();
+                y1 = touchEvent.getY();
+                break;
+
+            case MotionEvent.ACTION_UP:
+                x2 = touchEvent.getX();
+                y2 = touchEvent.getY();
+                if (x1 < x2) {
+                    Intent i = new Intent(PlaybackActivity.this, MainActivity.class);
+                    startActivity(i);
+                }
+                break;
+        }
+        return false;
     }
 }

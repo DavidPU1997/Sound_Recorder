@@ -4,7 +4,7 @@
         android:radius="350dp"
         />
     <solid
-        android:color="@color/recordButton"
+        android:color="@color/colorPrimary"
         />
     <padding
         android:left="0dp"

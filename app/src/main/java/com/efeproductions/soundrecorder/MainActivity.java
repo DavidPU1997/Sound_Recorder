@@ -51,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
     final int REQUEST_PERMISSION_CODE = 1000;
 
 
+    //ZA SWIPE
+    float x1, x2, y1, y2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -263,7 +266,22 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public boolean onTouchEvent(MotionEvent touchEvent){
+        switch(touchEvent.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                x1 = touchEvent.getX();
+                y1 = touchEvent.getY();
+                break;
 
-
-
+            case MotionEvent.ACTION_UP:
+                x2 = touchEvent.getX();
+                y2 = touchEvent.getY();
+                if(x1 > x2){
+                    Intent i = new Intent(MainActivity.this, PlaybackActivity.class);
+                    startActivity(i);
+                }
+                break;
+        }
+        return false;
+    }
 }
