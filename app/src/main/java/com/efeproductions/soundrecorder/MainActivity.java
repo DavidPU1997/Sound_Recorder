@@ -43,10 +43,11 @@ package com.efeproductions.soundrecorder;
 public class MainActivity extends AppCompatActivity {
 
     //declare variables
-    Button btnRecord, btnStopRecord, btnCancel;
+    Button btnRecord, btnStopRecord;
     String pathSave = "";
     MediaRecorder mediaRecorder;
     Chronometer timer;
+    String Stevilo;
     final int REQUEST_PERMISSION_CODE = 1000;
 
 
@@ -79,9 +80,9 @@ public class MainActivity extends AppCompatActivity {
                     //stevilo recordingov
                     int stRec = countRecordings();
                     stRec++;
+                    Stevilo = Integer.toString(stRec);
                     // direktorij, ime datoteke
-                    //pathSave = Environment.getExternalStorageDirectory().getAbsolutePath() + "/SoundRecorder/" + "New Recording " + stRec + ".3gp";
-                    pathSave = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + UUID.randomUUID().toString() + "_audio_record.3gp";
+                    pathSave = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + "New Recording " + Stevilo + ".3gp";
 
                     setupMediaRecorder();
                     try{
@@ -118,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
                 //Log.d("lalal", pathSave);
 
                 //display the keyboard
-                /*EditText editText = (EditText) findViewById(R.id.editTextName);
+                /*EditText editText = (EditText) findViewById(R.id.new_name);
                 editText.requestFocus();
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);*/
@@ -126,6 +127,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    //RECORDING
 
     private void requestPermissions() {
         ActivityCompat.requestPermissions(this, new String[]{
@@ -165,8 +169,10 @@ public class MainActivity extends AppCompatActivity {
         mediaRecorder.setOutputFile(pathSave);
     }
 
+    // POPUP DIALOG
+
     private static int countRecordings() {
-        File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/SoundRecorder/");
+        File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/");
         File[] files = dir.listFiles();
         if(files == null){
             return 0;
@@ -182,30 +188,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void rename(String name) {
 
-    /*public void showPopupWindow(View view) {
+        String pathDir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/";
+        /* File (or directory) with old name */
+        File file = new File(pathSave);
 
-        btnRecord.setEnabled(false); //da ne mores po nesreci kliknit gumba record
-        btnStopRecord.setEnabled(false);
+        /* File (or directory) with new name */
+        File file2 = new File(pathDir + name);
 
-        // inflate the layout of the popup window
-        LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
-        View popupView = inflater.inflate(R.layout.popup_window, null);
+        if (file2.exists()) {
+            try {
+                throw new java.io.IOException("File already exists!");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
-        // create the popup window
-        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
-        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
-        boolean focusable = true; // lets taps outside the popup also dismiss it
-        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
-        popupWindow.setElevation(20);
-        //popupWindow.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+        /* Rename file */
+        boolean success = file.renameTo(file2);
+        if (!success) {
+            Log.e("Rename File","Couldn't rename file!");
+        } else {
+            Log.i("Rename File","File renamed successfully!");
+        }
+    }
 
-        // show the popup window
-        // which view you pass in doesn't matter, it is only used for the window tolken
-        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
-
-        btnCancel = findViewById(R.id.cancelRecording);
-    }*/
 
     public void showPopupWindow(View v){
         AlertDialog.Builder nameFileBuilder = new AlertDialog.Builder(this);
@@ -214,13 +222,18 @@ public class MainActivity extends AppCompatActivity {
         View view = inflater.inflate(R.layout.dialog_name_file, null);
 
         final EditText input = (EditText) view.findViewById(R.id.new_name);
+        input.setText("New Recording " + Stevilo, TextView.BufferType.EDITABLE);
 
         nameFileBuilder.setTitle(this.getString(R.string.dialog_title_name));
-        nameFileBuilder.setCancelable(true);
+        nameFileBuilder.setCancelable(false);
         nameFileBuilder.setPositiveButton(this.getString(R.string.dialog_action_ok),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         try {
+                            String value = input.getText().toString().trim() + ".3gp";
+                            if(!value.equals(".3gp")){
+                                rename(value);
+                            }
                             Log.d("pritisnil si ok", "jajaja");
 
                         } catch (Exception e) {
@@ -233,12 +246,19 @@ public class MainActivity extends AppCompatActivity {
         nameFileBuilder.setNegativeButton(this.getString(R.string.dialog_action_delete),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        File file = new File(pathSave);
+
+                        if (file.exists()) {
+                            boolean deleted = file.delete();
+                        }
+
                         dialog.cancel();
                     }
                 });
 
         nameFileBuilder.setView(view);
         AlertDialog alert = nameFileBuilder.create();
+        alert.setCanceledOnTouchOutside(false);
         alert.show();
 
     }
