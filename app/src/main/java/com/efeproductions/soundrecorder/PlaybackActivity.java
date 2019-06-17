@@ -105,9 +105,16 @@ public class PlaybackActivity extends AppCompatActivity {
                 if (x1 < x2) {
                     Intent i = new Intent(PlaybackActivity.this, MainActivity.class);
                     startActivity(i);
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 }
                 break;
         }
         return false;
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 }

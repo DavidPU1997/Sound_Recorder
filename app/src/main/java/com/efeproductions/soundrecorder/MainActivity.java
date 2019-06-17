@@ -32,6 +32,9 @@ package com.efeproductions.soundrecorder;
         import android.widget.RelativeLayout;
         import android.widget.TextView;
         import android.widget.Toast;
+
+        import com.shitij.goyal.slidebutton.SwipeButton;
+
         import java.io.BufferedWriter;
         import java.io.File;
         import java.io.FileOutputStream;
@@ -53,11 +56,37 @@ public class MainActivity extends AppCompatActivity {
 
     //ZA SWIPE
     float x1, x2, y1, y2;
+    SwipeButton swipeButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //swipe button
+        swipeButton = (SwipeButton) findViewById(R.id.slide);
+        swipeButton.addOnSwipeCallback(new SwipeButton.Swipe() {
+            @Override
+            public void onButtonPress() {
+                Intent i = new Intent(MainActivity.this, PlaybackActivity.class);
+                startActivity(i);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            }
+
+            @Override
+            public void onSwipeCancel() {
+
+            }
+
+            @Override
+            public void onSwipeConfirm() {
+                Intent i = new Intent(MainActivity.this, PlaybackActivity.class);
+                startActivity(i);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            }
+        });
+
+
 
         //Request Runtime permissions
         if(!checkPermissionFromDevice())
@@ -271,14 +300,17 @@ public class MainActivity extends AppCompatActivity {
             case MotionEvent.ACTION_DOWN:
                 x1 = touchEvent.getX();
                 y1 = touchEvent.getY();
+                Log.d("MainActivity", "x1=" + x1);
                 break;
 
             case MotionEvent.ACTION_UP:
                 x2 = touchEvent.getX();
                 y2 = touchEvent.getY();
+                Log.d("MainActivity", "x2=" + x2);
                 if(x1 > x2){
                     Intent i = new Intent(MainActivity.this, PlaybackActivity.class);
                     startActivity(i);
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 }
                 break;
         }
