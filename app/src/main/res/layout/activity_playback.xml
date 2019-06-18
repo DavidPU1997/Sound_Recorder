@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".PlaybackActivity"
     android:background="@color/backgroundColor"
+    android:id="@+id/playback"
     >
     <include
         layout="@layout/toolbar"

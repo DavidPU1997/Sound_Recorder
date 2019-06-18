@@ -1,12 +1,18 @@
 package com.efeproductions.soundrecorder;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 import android.os.FileObserver;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,6 +24,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -41,6 +48,7 @@ public class PlaybackActivity extends AppCompatActivity {
     String[] items;
     String[] dates;
     final int REQUEST_PERMISSION_CODE = 1000;
+    FragmentManager manager;
 
     //ZA SWIPE
     float x1, x2, y1, y2;
@@ -48,6 +56,8 @@ public class PlaybackActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playback);
+        manager = getSupportFragmentManager();
+
 
         myListViewForSongs = (ListView) findViewById(R.id.myListView);
         display();
@@ -73,7 +83,7 @@ public class PlaybackActivity extends AppCompatActivity {
     }
 
     void display(){
-        final ArrayList<File> mySongs = findSong(Environment.getExternalStorageDirectory());
+        final ArrayList<File> mySongs = findSong(new File(Environment.getExternalStorageDirectory()+ "/" + "MyRecordings/"));
 
         items = new String[mySongs.size()];
         dates = new String[mySongs.size()];
@@ -102,11 +112,35 @@ public class PlaybackActivity extends AppCompatActivity {
             listItems.add(resultsMap);
         }
 
-        myListViewForSongs.setAdapter(adapter);
+        ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
+        myListViewForSongs.setAdapter(myAdapter);
 
-        //ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
+        myListViewForSongs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        //myListViewForSongs.setAdapter(myAdapter);
+                String songName = myListViewForSongs.getItemAtPosition(position).toString();
+                String path = Environment.getExternalStorageDirectory().toString() + "/" + "MyRecordings" + "/" +songName + ".3gp";
+
+                try {
+                    PlaybackFragment playbackFragment =
+                            new PlaybackFragment().newInstance(path, songName);
+                    FragmentTransaction transaction = manager.beginTransaction();
+                    transaction.add(playbackFragment, "dialog_playback");
+                    transaction.commit();
+
+                    /*FragmentTransaction transaction = ((FragmentActivity) myContext)
+                            .getSupportFragmentManager()
+                            .beginTransaction();
+
+                    playbackFragment.show(transaction, "dialog_playback");*/
+
+                } catch (Exception e) {
+                    Log.e("Playback Time", "exception", e);
+                }
+
+            }
+        });
     }
 
 

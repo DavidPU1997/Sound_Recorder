@@ -215,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void rename(String name) {
 
-        String pathDir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/";
+        String pathDir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + "MyRecordings/";
         /* File (or directory) with old name */
         File file = new File(pathSave);
 
