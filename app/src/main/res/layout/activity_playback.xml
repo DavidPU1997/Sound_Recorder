@@ -11,14 +11,34 @@
         layout="@layout/toolbar"
         android:id="@+id/toolbar">
     </include>
-    
+
     <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:id="@+id/myListView"
-        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:dividerHeight="1dp"
-        >
-    </ListView>
+        android:padding="10dp"
+        app:layout_constraintBottom_toTopOf="@id/playback_btn"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"></ListView>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/mic"
+        android:onClick="callHome"
+        android:text="            RECORDING            "
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+    <Button
+        android:id="@+id/playback_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="    SAVED RECORDINGS    "
+        android:drawableStart="@drawable/file_red"
+        android:textColor="@color/colorPrimaryDark"
+        android:enabled="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

@@ -217,6 +217,7 @@ public class MainActivity extends AppCompatActivity {
     public void callPlayback(View v) {
         Intent playback = new Intent(this, PlaybackActivity.class);
         startActivity(playback);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
 

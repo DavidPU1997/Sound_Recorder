@@ -22,12 +22,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionDeniedResponse;
-import com.karumi.dexter.listener.PermissionGrantedResponse;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.single.PermissionListener;
 
 import java.io.File;
 import java.io.IOException;
@@ -90,6 +84,7 @@ public class PlaybackActivity extends AppCompatActivity {
     public void callHome(View v){
         Intent home = new Intent(this, MainActivity.class);
         startActivity(home);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
     public boolean onTouchEvent(MotionEvent touchEvent) {
@@ -105,7 +100,7 @@ public class PlaybackActivity extends AppCompatActivity {
                 if (x1 < x2) {
                     Intent i = new Intent(PlaybackActivity.this, MainActivity.class);
                     startActivity(i);
-                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_in_right);
                 }
                 break;
         }
