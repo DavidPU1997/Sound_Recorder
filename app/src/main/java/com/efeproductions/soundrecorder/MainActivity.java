@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                     int stRec = countRecordings();
                     stRec++;
                     Stevilo = Integer.toString(stRec);
-                    pathSave = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + "MyRecordings" + "/" + "New Recording " + Stevilo + ".3gp";
+                    pathSave = path + "/" + "MyRecordings/" + "New Recording " + Stevilo + ".3gp";
                     setupMediaRecorder();
                     try{
                         mediaRecorder.prepare();
