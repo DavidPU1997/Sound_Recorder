@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                             Log.d("Was not successfull", "sarzaewrz");
                         }
                     }
-                    pathSave = Environment.getExternalStorageDirectory().toString() + "/" + "MyRecordings" + "New Recording " + Stevilo + ".3gp";
+                    pathSave = Environment.getExternalStorageDirectory().toString() + "/" + "MyRecordings" + "/" + "New Recording " + Stevilo + ".3gp";
                     setupMediaRecorder();
                     try{
                         mediaRecorder.prepare();
