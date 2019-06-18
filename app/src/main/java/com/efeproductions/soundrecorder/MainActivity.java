@@ -196,7 +196,8 @@ public class MainActivity extends AppCompatActivity {
     // POPUP DIALOG
 
     private static int countRecordings() {
-        File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/");
+        String path = Environment.getExternalStorageDirectory().toString() + "/" + "MyRecordings" + "/";
+        File dir = new File(path);
         File[] files = dir.listFiles();
         if(files == null){
             return 0;
