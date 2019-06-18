@@ -79,8 +79,7 @@ public class PlaybackFragment extends DialogFragment {
         recording = new File(pathToItem);
         recordingName = getArguments().getString("String_name");
 
-        String sItemDuration = getDuration(recording);
-        long itemDuration = 10;
+        long itemDuration = getDuration(recording);
 
         //long itemDuration = item.getLength();
         minutes = TimeUnit.MILLISECONDS.toMinutes(itemDuration);
@@ -166,7 +165,7 @@ public class PlaybackFragment extends DialogFragment {
 
 
         mFileNameTextView.setText(recordingName);
-        //mFileLengthTextView.setText(String.format("%02d:%02d", minutes,seconds));
+        mFileLengthTextView.setText(String.format("%02d:%02d", minutes,seconds));
 
         builder.setView(view);
 
@@ -225,12 +224,12 @@ public class PlaybackFragment extends DialogFragment {
         }
     }
 
-    private String getDuration(File file) {
+    private long getDuration(File file) {
         /*MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
         mediaMetadataRetriever.setDataSource(file.getAbsolutePath(), new HashMap<String, String>());
         String durationStr = mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);*/
 
-        myMediaPlayer = new MediaPlayer();
+        /*myMediaPlayer = new MediaPlayer();
         long time;
 
         try {
@@ -246,7 +245,23 @@ public class PlaybackFragment extends DialogFragment {
             });
         } catch (IOException e) {
             Log.e(LOG_TAG, "prepare() failed");
-        }
+        }*/
+
+        // load data file
+        MediaMetadataRetriever metaRetriever = new MediaMetadataRetriever();
+        metaRetriever.setDataSource(pathToItem);
+
+        String out = "";
+        // get mp3 info
+
+        // convert duration to minute:seconds
+        String duration =
+                metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+        Log.v("time", duration);
+        long dur = Long.parseLong(duration);
+
+        // close object
+        metaRetriever.release();
 
        /* String mediaPath = Uri.parse("android.resource://com.efeproductions.soundrecorder/raw/" + recordingName).getPath();
         MediaMetadataRetriever mmr = new MediaMetadataRetriever();
@@ -254,7 +269,7 @@ public class PlaybackFragment extends DialogFragment {
         String duration = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
         mmr.release();*/
 
-        return "string";
+        return dur;
     }
 
     public String createTimerLabel(int duration){
