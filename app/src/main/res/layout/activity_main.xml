@@ -10,7 +10,7 @@ android:background="@color/backgroundColor"
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar"></include>
+        layout="@layout/toolbar"/>
 
     <Chronometer
         android:id="@+id/timer"

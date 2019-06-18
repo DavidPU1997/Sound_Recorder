@@ -46,7 +46,7 @@ package com.efeproductions.soundrecorder;
 public class MainActivity extends AppCompatActivity {
 
     //declare variables
-    Button btnRecord, btnStopRecord;
+    Button btnRecord, btnStopRecord, btnRecordScreen, btnPlaybackScreen;
     String pathSave = "";
     MediaRecorder mediaRecorder;
     Chronometer timer;
@@ -72,6 +72,9 @@ public class MainActivity extends AppCompatActivity {
         btnRecord = findViewById(R.id.btnStartRecord);
         btnStopRecord = findViewById(R.id.btnStopRecord);
 
+        btnRecordScreen = findViewById(R.id.button);
+        btnPlaybackScreen = findViewById(R.id.playback_btn);
+
         btnRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,8 +92,17 @@ public class MainActivity extends AppCompatActivity {
                     stRec++;
                     Stevilo = Integer.toString(stRec);
                     // direktorij, ime datoteke
-                    pathSave = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + "New Recording " + Stevilo + ".3gp";
+                    //pathSave = Environment.getExternalStorageDirectory().getAbsolutePath() + "/MyRecordings/" + "New Recording " + Stevilo + ".3gp";
 
+                    String path = Environment.getExternalStorageDirectory().toString();
+                    File appDirectory = new File(path + "/" + "MyRecordings");
+                    if(!appDirectory.isDirectory()) {
+                        boolean wasSuccessful = appDirectory.mkdirs();
+                        if (!wasSuccessful) {
+                            Log.d("Was not successfull", "sarzaewrz");
+                        }
+                    }
+                    pathSave = Environment.getExternalStorageDirectory().toString() + "/" + "MyRecordings" + "New Recording " + Stevilo + ".3gp";
                     setupMediaRecorder();
                     try{
                         mediaRecorder.prepare();
@@ -99,6 +111,8 @@ public class MainActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     Toast.makeText(getApplicationContext(), "Recording...", Toast.LENGTH_SHORT).show();
+                    btnRecordScreen.setEnabled(false);
+                    btnPlaybackScreen.setEnabled(false);
                 }
                 else {
                     requestPermissions();
@@ -122,6 +136,9 @@ public class MainActivity extends AppCompatActivity {
                 timer.setVisibility(View.INVISIBLE);
 
                 showPopupWindow(v);
+
+                btnRecordScreen.setEnabled(true);
+                btnPlaybackScreen.setEnabled(true);
 
                 //Log.d("lalal", pathSave);
 
@@ -302,5 +319,16 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         return false;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(mediaRecorder != null){
+            mediaRecorder.stop();
+            mediaRecorder.reset();
+            mediaRecorder.release();
+            mediaRecorder = null;
+        }
     }
 }
