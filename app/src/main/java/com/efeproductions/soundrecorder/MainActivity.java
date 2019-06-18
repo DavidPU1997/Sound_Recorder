@@ -56,36 +56,11 @@ public class MainActivity extends AppCompatActivity {
 
     //ZA SWIPE
     float x1, x2, y1, y2;
-    SwipeButton swipeButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //swipe button
-        swipeButton = (SwipeButton) findViewById(R.id.slide);
-        swipeButton.addOnSwipeCallback(new SwipeButton.Swipe() {
-            @Override
-            public void onButtonPress() {
-                Intent i = new Intent(MainActivity.this, PlaybackActivity.class);
-                startActivity(i);
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-            }
-
-            @Override
-            public void onSwipeCancel() {
-
-            }
-
-            @Override
-            public void onSwipeConfirm() {
-                Intent i = new Intent(MainActivity.this, PlaybackActivity.class);
-                startActivity(i);
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-            }
-        });
-
 
 
         //Request Runtime permissions

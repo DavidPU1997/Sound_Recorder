@@ -73,28 +73,6 @@ android:background="@color/backgroundColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <com.shitij.goyal.slidebutton.SwipeButton
-        android:id="@+id/slide"
-        android:layout_width="match_parent"
-        android:layout_centerInParent = "true"
-        android:layout_height="50dp"
-        android:background="#e96251"
-        android:layout_marginStart="8dp"
-        android:text="Swipe"
-        android:textColor="#FFF"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="124dp"
-        app:button_swipe_text="Swipe"
-        app:gradient_color_2="@color/colorPrimaryDark"
-        app:gradient_color_2_width="100dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:swipe_mode="mirror"
-        app:threshold="0.9"
-        android:gravity="center"/>
-
     <Button
         android:id="@+id/button"
         android:layout_width="0dp"
