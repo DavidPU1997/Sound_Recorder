@@ -75,8 +75,7 @@ public class PlaybackActivity extends AppCompatActivity {
             Objects.requireNonNull(items[i] = mySongs.get(i).getName().toString().replace(".3gp", ""));
         }
 
-        ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1
-        );
+        ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
         myListViewForSongs.setAdapter(myAdapter);
     }
 
