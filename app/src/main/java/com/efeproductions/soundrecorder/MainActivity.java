@@ -87,22 +87,22 @@ public class MainActivity extends AppCompatActivity {
                 timer.start();
                 //from Android M , you need request Run time permission
                 if (checkPermissionFromDevice()) {
-                    //stevilo recordingov
-                    int stRec = countRecordings();
-                    stRec++;
-                    Stevilo = Integer.toString(stRec);
                     // direktorij, ime datoteke
                     //pathSave = Environment.getExternalStorageDirectory().getAbsolutePath() + "/MyRecordings/" + "New Recording " + Stevilo + ".3gp";
 
                     String path = Environment.getExternalStorageDirectory().toString();
-                    File appDirectory = new File(path + "/" + "MyRecordings");
+                    File appDirectory = new File(path + "/" + "MyRecordings/");
                     if(!appDirectory.isDirectory()) {
                         boolean wasSuccessful = appDirectory.mkdirs();
                         if (!wasSuccessful) {
                             Log.d("Was not successfull", "sarzaewrz");
                         }
                     }
-                    pathSave = Environment.getExternalStorageDirectory().toString() + "/" + "MyRecordings" + "/" + "New Recording " + Stevilo + ".3gp";
+                    //stevilo recordingov
+                    int stRec = countRecordings();
+                    stRec++;
+                    Stevilo = Integer.toString(stRec);
+                    pathSave = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + "MyRecordings" + "/" + "New Recording " + Stevilo + ".3gp";
                     setupMediaRecorder();
                     try{
                         mediaRecorder.prepare();
@@ -139,7 +139,6 @@ public class MainActivity extends AppCompatActivity {
 
                 btnRecordScreen.setEnabled(true);
                 btnPlaybackScreen.setEnabled(true);
-
                 //Log.d("lalal", pathSave);
 
                 //display the keyboard
@@ -196,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
     // POPUP DIALOG
 
     private static int countRecordings() {
-        String path = Environment.getExternalStorageDirectory().toString() + "/" + "MyRecordings";
+        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + "MyRecordings/";
         File dir = new File(path);
         File[] files = dir.listFiles();
         if(files == null){
@@ -332,4 +331,7 @@ public class MainActivity extends AppCompatActivity {
             mediaRecorder = null;
         }
     }
+    public void onStop() {
+        super.onStop();
+        }
 }

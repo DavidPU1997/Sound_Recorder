@@ -20,13 +20,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -34,6 +39,7 @@ public class PlaybackActivity extends AppCompatActivity {
 
     ListView myListViewForSongs;
     String[] items;
+    String[] dates;
     final int REQUEST_PERMISSION_CODE = 1000;
 
     //ZA SWIPE
@@ -70,13 +76,37 @@ public class PlaybackActivity extends AppCompatActivity {
         final ArrayList<File> mySongs = findSong(Environment.getExternalStorageDirectory());
 
         items = new String[mySongs.size()];
+        dates = new String[mySongs.size()];
+
+        HashMap<String, String> NaslovDatum = new HashMap<>();
 
         for(int i = 0; i < mySongs.size(); i++){
-            Objects.requireNonNull(items[i] = mySongs.get(i).getName().toString().replace(".3gp", ""));
+            Date lastModDate = new Date(mySongs.get(i).lastModified());
+            dates[i] = lastModDate.toString();
+            Objects.requireNonNull(items[i] = mySongs.get(i).getName().replace(".3gp", ""));
+
+            NaslovDatum.put(items[i], dates[i]);
         }
 
-        ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
-        myListViewForSongs.setAdapter(myAdapter);
+        List<HashMap<String, String>> listItems = new ArrayList<>();
+
+        SimpleAdapter adapter = new SimpleAdapter(this, listItems, R.layout.list_item, new String[]{"First Line", "Second Line"}, new int[]{R.id.text1, R.id.text2});
+
+        Iterator it = NaslovDatum.entrySet().iterator();
+
+        while(it.hasNext()){
+            HashMap<String, String> resultsMap = new HashMap<>();
+            Map.Entry pair = (Map.Entry)it.next();
+            resultsMap.put("First Line", pair.getKey().toString());
+            resultsMap.put("Second Line", pair.getValue().toString());
+            listItems.add(resultsMap);
+        }
+
+        myListViewForSongs.setAdapter(adapter);
+
+        //ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
+
+        //myListViewForSongs.setAdapter(myAdapter);
     }
 
 
