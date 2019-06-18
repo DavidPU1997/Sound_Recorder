@@ -73,6 +73,9 @@ android:background="@color/backgroundColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+
+
+
     <Button
         android:id="@+id/button"
         android:layout_width="0dp"
@@ -83,4 +86,6 @@ android:background="@color/backgroundColor"
         android:text="            RECORDING            "
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+
 </android.support.constraint.ConstraintLayout>

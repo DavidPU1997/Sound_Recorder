@@ -254,12 +254,8 @@ public class MainActivity extends AppCompatActivity {
         nameFileBuilder.setNegativeButton(this.getString(R.string.dialog_action_delete),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        File file = new File(pathSave);
 
-                        if (file.exists()) {
-                            boolean deleted = file.delete();
-                        }
-
+                        delete(pathSave);
                         dialog.cancel();
                     }
                 });
@@ -268,6 +264,21 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog alert = nameFileBuilder.create();
         alert.setCanceledOnTouchOutside(false);
         alert.show();
+
+    }
+
+    public void delete(String path){
+        File file = new File(path);
+        boolean deleted;
+
+        try {
+            if (file.exists()) {
+                deleted = file.delete();
+                Log.d("MainActivity", "Deletion Succesfull");
+            }
+        } catch (Exception e){
+            Log.d("Error pri brisanju", e.toString());
+        }
 
     }
 
