@@ -71,82 +71,77 @@ public class MainActivity extends AppCompatActivity {
         timer = findViewById(R.id.timer);
         btnRecord = findViewById(R.id.btnStartRecord);
         btnStopRecord = findViewById(R.id.btnStopRecord);
+        btnStopRecord.setEnabled(false);
 
-        btnRecordScreen = findViewById(R.id.button);
-        btnPlaybackScreen = findViewById(R.id.playback_btn);
 
         btnRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                btnRecord.setVisibility(View.GONE);
-                btnStopRecord.setVisibility(View.VISIBLE);
-                timer.setVisibility(View.VISIBLE);
+                if(mediaRecorder == null && btnRecord.isEnabled() && !btnStopRecord.isEnabled()){
 
-                btnStopRecord.setEnabled(true);
-                timer.start();
-                //from Android M , you need request Run time permission
-                if (checkPermissionFromDevice()) {
-                    // direktorij, ime datoteke
-                    //pathSave = Environment.getExternalStorageDirectory().getAbsolutePath() + "/MyRecordings/" + "New Recording " + Stevilo + ".3gp";
+                    btnRecord.setEnabled(false);
+                    btnRecord.setVisibility(View.INVISIBLE);
+                    btnStopRecord.setVisibility(View.VISIBLE);
+                    timer.setVisibility(View.VISIBLE);
 
-                    String path = Environment.getExternalStorageDirectory().toString();
-                    File appDirectory = new File(path + "/" + "MyRecordings/");
-                    if(!appDirectory.isDirectory()) {
-                        boolean wasSuccessful = appDirectory.mkdirs();
-                        if (!wasSuccessful) {
-                            Log.d("Was not successfull", "sarzaewrz");
+                    btnStopRecord.setEnabled(true);
+                    timer.start();
+                    //from Android M , you need request Run time permission
+                    if (checkPermissionFromDevice()) {
+                        // direktorij, ime datoteke
+                        //pathSave = Environment.getExternalStorageDirectory().getAbsolutePath() + "/MyRecordings/" + "New Recording " + Stevilo + ".3gp";
+
+                        String path = Environment.getExternalStorageDirectory().toString();
+                        File appDirectory = new File(path + "/" + "MyRecordings/");
+                        if(!appDirectory.isDirectory()) {
+                            boolean wasSuccessful = appDirectory.mkdirs();
+                            if (!wasSuccessful) {
+                                Log.d("Was not successfull", "sarzaewrz");
+                            }
                         }
-                    }
-                    //stevilo recordingov
-                    int stRec = countRecordings();
-                    stRec++;
-                    Stevilo = Integer.toString(stRec);
-                    pathSave = path + "/" + "MyRecordings/" + "New Recording " + Stevilo + ".3gp";
-                    setupMediaRecorder();
-                    try{
-                        mediaRecorder.prepare();
-                        mediaRecorder.start();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    Toast.makeText(getApplicationContext(), "Recording...", Toast.LENGTH_SHORT).show();
-                    btnRecordScreen.setEnabled(false);
-                    btnPlaybackScreen.setEnabled(false);
-                }
-                else {
-                    requestPermissions();
-                }
+                        //stevilo recordingov
+                        int stRec = countRecordings();
+                        stRec++;
+                        Stevilo = Integer.toString(stRec);
+                        pathSave = path + "/" + "MyRecordings/" + "New Recording " + Stevilo + ".3gp";
+                        setupMediaRecorder();
+                        try{
+                            mediaRecorder.prepare();
+                            mediaRecorder.start();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        Toast.makeText(getApplicationContext(), "Recording...", Toast.LENGTH_SHORT).show();
 
+                    }
+                    else {
+                        requestPermissions();
+                    }
+                }
             }
         });
 
         btnStopRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                timer.stop();
-                mediaRecorder.stop();
-                mediaRecorder.reset();
-                mediaRecorder.release();
-                mediaRecorder = null;
+                if(mediaRecorder != null && !btnRecord.isEnabled() && btnStopRecord.isEnabled()) {
+                    timer.stop();
+                    mediaRecorder.stop();
+                    mediaRecorder.reset();
+                    mediaRecorder.release();
+                    mediaRecorder = null;
 
-                btnStopRecord.setEnabled(false);
-                btnRecord.setVisibility(View.VISIBLE);
-                btnStopRecord.setVisibility(View.INVISIBLE);
-                timer.setVisibility(View.INVISIBLE);
+                    showPopupWindow(v);
 
-                showPopupWindow(v);
+                    btnStopRecord.setEnabled(false);
+                    btnRecord.setVisibility(View.VISIBLE);
+                    btnStopRecord.setVisibility(View.INVISIBLE);
+                    timer.setVisibility(View.INVISIBLE);
+                    btnRecord.setEnabled(true);
 
-                btnRecordScreen.setEnabled(true);
-                btnPlaybackScreen.setEnabled(true);
-                //Log.d("lalal", pathSave);
 
-                //display the keyboard
-                /*EditText editText = (EditText) findViewById(R.id.new_name);
-                editText.requestFocus();
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);*/
-
+                }
             }
         });
     }

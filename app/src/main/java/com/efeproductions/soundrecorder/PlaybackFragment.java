@@ -225,27 +225,6 @@ public class PlaybackFragment extends DialogFragment {
     }
 
     private long getDuration(File file) {
-        /*MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
-        mediaMetadataRetriever.setDataSource(file.getAbsolutePath(), new HashMap<String, String>());
-        String durationStr = mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);*/
-
-        /*myMediaPlayer = new MediaPlayer();
-        long time;
-
-        try {
-            myMediaPlayer.setDataSource(pathToItem);
-            myMediaPlayer.prepare();
-
-            myMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                @Override
-                public void onPrepared(MediaPlayer mp) {
-                    mFileLengthTextView.setText(createTimerLabel(myMediaPlayer.getDuration()));
-                    myMediaPlayer.start();
-                }
-            });
-        } catch (IOException e) {
-            Log.e(LOG_TAG, "prepare() failed");
-        }*/
 
         // load data file
         MediaMetadataRetriever metaRetriever = new MediaMetadataRetriever();
@@ -262,12 +241,6 @@ public class PlaybackFragment extends DialogFragment {
 
         // close object
         metaRetriever.release();
-
-       /* String mediaPath = Uri.parse("android.resource://com.efeproductions.soundrecorder/raw/" + recordingName).getPath();
-        MediaMetadataRetriever mmr = new MediaMetadataRetriever();
-        mmr.setDataSource(mediaPath, new HashMap<String, String>());
-        String duration = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
-        mmr.release();*/
 
         return dur;
     }

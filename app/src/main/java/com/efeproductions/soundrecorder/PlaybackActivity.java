@@ -99,7 +99,7 @@ public class PlaybackActivity extends AppCompatActivity {
         // convert duration to minute:seconds
         String date =
                 metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DATE);
-        Log.v("date", date);
+        //Log.v("date", date);
 
         // close object
         metaRetriever.release();

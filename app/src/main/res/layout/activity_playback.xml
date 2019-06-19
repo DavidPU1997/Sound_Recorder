@@ -19,28 +19,45 @@
         android:layout_height="0dp"
         android:dividerHeight="4dp"
         android:padding="10dp"
-        app:layout_constraintBottom_toTopOf="@id/playback_btn"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        />
+        app:layout_constraintBottom_toTopOf="@id/navButtons"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:drawableStart="@drawable/mic"
-        android:onClick="callHome"
-        android:text="            RECORDING            "
+
+
+    <LinearLayout
+        android:id="@+id/navButtons"
+        style="?android:attr/buttonBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:weightSum="1"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-    <Button
-        android:id="@+id/playback_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="    SAVED RECORDINGS    "
-        android:drawableStart="@drawable/file_red"
-        android:textColor="@color/colorPrimaryDark"
-        android:enabled="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        >
+
+        <Button
+            android:id="@+id/button"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:onClick="callHome"
+            android:drawableStart="@drawable/mic"
+            android:layout_weight="0.70"
+            android:text="RECORDING"
+            />
+
+
+        <Button
+            android:id="@+id/playback_btn"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/file_red"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_weight="0.30"
+            android:text="SAVED RECORDINGS"
+            android:enabled="false"/>
+
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
