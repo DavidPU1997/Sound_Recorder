@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.MediaMetadataRetriever;
 import android.os.Environment;
 import android.os.FileObserver;
 import android.support.annotation.NonNull;
@@ -112,8 +113,8 @@ public class PlaybackActivity extends AppCompatActivity {
             listItems.add(resultsMap);
         }
 
-        ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
-        myListViewForSongs.setAdapter(myAdapter);
+        myListViewForSongs.setAdapter(adapter);
+
 
         myListViewForSongs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
