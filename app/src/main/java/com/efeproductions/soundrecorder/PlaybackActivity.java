@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaMetadataRetriever;
+import android.net.Uri;
 import android.os.Environment;
 import android.os.FileObserver;
 import android.support.annotation.NonNull;
@@ -50,6 +51,7 @@ public class PlaybackActivity extends AppCompatActivity {
     ListView myListViewForSongs;
     String[] items;
     String[] dates;
+    String[] durations;
     final int REQUEST_PERMISSION_CODE = 1000;
     FragmentManager manager;
 
@@ -128,6 +130,7 @@ public class PlaybackActivity extends AppCompatActivity {
 
         items = new String[mySongs.size()];
         dates = new String[mySongs.size()];
+        durations = new String[mySongs.size()];
 
         HashMap<String, String> NaslovDatum = new HashMap<>();
 
@@ -135,6 +138,36 @@ public class PlaybackActivity extends AppCompatActivity {
             dates[i] = formatMediaDate(getDate(mySongs.get(i).getAbsolutePath()));
             Objects.requireNonNull(items[i] = mySongs.get(i).getName().replace(".3gp", ""));
 
+
+            String mediaPath = Uri.parse(mySongs.get(i).getAbsolutePath()).getPath();
+            MediaMetadataRetriever mmr = new MediaMetadataRetriever();
+            mmr.setDataSource(mediaPath);
+            String duration = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+            mmr.release();
+
+            int myNum = Integer.parseInt(duration);
+            long trajanje = myNum / 1000;
+            long h = trajanje / 3600;
+            long m = (trajanje - h * 3600) / 60;
+            long s = trajanje - (h * 3600 + m * 60);
+
+            String minute = "";
+            String sekunde = "";
+            if(m < 10){
+                minute = "0" + m;
+            }
+            else{
+                minute = String.valueOf(m);
+            }
+
+            if(s < 10){
+                sekunde = "0" + s;
+            }
+            else{
+                sekunde = String.valueOf(s);
+            }
+
+            dates[i] =  minute + ":" + sekunde + "\n" + dates[i];
             NaslovDatum.put(items[i], dates[i]);
         }
 
@@ -154,13 +187,12 @@ public class PlaybackActivity extends AppCompatActivity {
 
         myListViewForSongs.setAdapter(adapter);
 
-
         myListViewForSongs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                String songName = myListViewForSongs.getItemAtPosition(position).toString();
-                String path = Environment.getExternalStorageDirectory().toString() + "/" + "MyRecordings" + "/" +songName + ".3gp";
+                String songName = items[position];
+                String path = Environment.getExternalStorageDirectory().toString() + "/" + "MyRecordings" + "/" + items[position] + ".3gp";
 
                 try {
                     PlaybackFragment playbackFragment =

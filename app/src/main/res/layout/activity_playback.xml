@@ -17,10 +17,11 @@
         android:id="@+id/myListView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:dividerHeight="1dp"
+        android:dividerHeight="4dp"
         android:padding="10dp"
         app:layout_constraintBottom_toTopOf="@id/playback_btn"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        />
 
     <Button
         android:id="@+id/button"
