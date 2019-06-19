@@ -3,6 +3,7 @@ package com.efeproductions.soundrecorder;
         import android.content.Context;
         import android.content.DialogInterface;
         import android.os.Environment;
+        import android.os.SystemClock;
         import android.support.v7.app.AppCompatActivity;
         import android.os.Bundle;
         import android.Manifest;
@@ -86,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
                     timer.setVisibility(View.VISIBLE);
 
                     btnStopRecord.setEnabled(true);
+                    timer.setBase(SystemClock.elapsedRealtime());
                     timer.start();
                     //from Android M , you need request Run time permission
                     if (checkPermissionFromDevice()) {
@@ -127,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(mediaRecorder != null && !btnRecord.isEnabled() && btnStopRecord.isEnabled()) {
                     timer.stop();
+
                     mediaRecorder.stop();
                     mediaRecorder.reset();
                     mediaRecorder.release();
