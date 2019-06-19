@@ -34,11 +34,13 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
@@ -83,6 +85,44 @@ public class PlaybackActivity extends AppCompatActivity {
         return arrayList;
     }
 
+    private String getDate(String pathToItem) {
+
+        // load data file
+        MediaMetadataRetriever metaRetriever = new MediaMetadataRetriever();
+        metaRetriever.setDataSource(pathToItem);
+
+        String out = "";
+        // get mp3 info
+
+        // convert duration to minute:seconds
+        String date =
+                metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DATE);
+        Log.v("date", date);
+
+        // close object
+        metaRetriever.release();
+
+        return date;
+    }
+
+    public static String formatMediaDate(String date){
+        String formattedDate = "";
+        try {
+            Date inputDate = new SimpleDateFormat("yyyyMMdd'T'HHmmss", Locale.getDefault()).parse(date);
+            formattedDate = new SimpleDateFormat("dd MMMM yyyy HH:mm", Locale.getDefault()).format(inputDate);
+        }
+        catch (Exception e){
+            Log.w("TRARA", "error parsing date: ", e);
+            try {
+                Date inputDate = new SimpleDateFormat("yyyy MM dd", Locale.getDefault()).parse(date);
+                formattedDate = new SimpleDateFormat("HH:mm dd MMMM yyyy", Locale.getDefault()).format(inputDate);
+            } catch (Exception ex) {
+                Log.e("TRSERT", "error parsing date: ", ex);
+            }
+        }
+        return formattedDate;
+    }
+
     void display(){
         final ArrayList<File> mySongs = findSong(new File(Environment.getExternalStorageDirectory()+ "/" + "MyRecordings/"));
 
@@ -92,8 +132,7 @@ public class PlaybackActivity extends AppCompatActivity {
         HashMap<String, String> NaslovDatum = new HashMap<>();
 
         for(int i = 0; i < mySongs.size(); i++){
-            Date lastModDate = new Date(mySongs.get(i).lastModified());
-            dates[i] = lastModDate.toString();
+            dates[i] = formatMediaDate(getDate(mySongs.get(i).getAbsolutePath()));
             Objects.requireNonNull(items[i] = mySongs.get(i).getName().replace(".3gp", ""));
 
             NaslovDatum.put(items[i], dates[i]);
