@@ -17,6 +17,7 @@
 
         <activity android:name=".MainActivity"
             android:label="Sound Recorder"
+            android:screenOrientation="portrait"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,7 +25,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".PlaybackActivity" />
+        <activity android:name=".PlaybackActivity"
+            android:screenOrientation="portrait"
+            />
     </application>
 
 </manifest>

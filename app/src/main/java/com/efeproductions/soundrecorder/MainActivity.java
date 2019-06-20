@@ -53,6 +53,9 @@ public class MainActivity extends AppCompatActivity {
     Chronometer timer;
     String Stevilo;
     final int REQUEST_PERMISSION_CODE = 1000;
+    boolean continueRecording = true;
+    boolean stopClicked = false;
+    boolean showPopup = false;
 
 
     //ZA SWIPE
@@ -79,8 +82,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(mediaRecorder == null && btnRecord.isEnabled() && !btnStopRecord.isEnabled()){
+                if(continueRecording &&  mediaRecorder == null && btnRecord.isEnabled() && !btnStopRecord.isEnabled()){
 
+                    continueRecording = false;
                     btnRecord.setEnabled(false);
                     btnRecord.setVisibility(View.INVISIBLE);
                     btnStopRecord.setVisibility(View.VISIBLE);
@@ -127,23 +131,33 @@ public class MainActivity extends AppCompatActivity {
         btnStopRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mediaRecorder != null && !btnRecord.isEnabled() && btnStopRecord.isEnabled()) {
+                if(!stopClicked && mediaRecorder != null && !btnRecord.isEnabled() && btnStopRecord.isEnabled()) {
+                    btnStopRecord.setEnabled(false);
+                    stopClicked = true;
                     timer.stop();
 
-                    mediaRecorder.stop();
-                    mediaRecorder.reset();
-                    mediaRecorder.release();
-                    mediaRecorder = null;
-
-                    showPopupWindow(v);
-
-                    btnStopRecord.setEnabled(false);
-                    btnRecord.setVisibility(View.VISIBLE);
-                    btnStopRecord.setVisibility(View.INVISIBLE);
-                    timer.setVisibility(View.INVISIBLE);
-                    btnRecord.setEnabled(true);
-
-
+                    try{
+                        mediaRecorder.stop();
+                        mediaRecorder.reset();
+                        mediaRecorder.release();
+                        mediaRecorder = null;
+                        showPopup = true;
+                    }catch(RuntimeException stopException){ //ce prehitro kliknes start in stop v datoteki ni skor nc in ti da zanalasc ta error
+                        mediaRecorder.reset();
+                        mediaRecorder.release();
+                        mediaRecorder = null;
+                        delete(pathSave);
+                        continueRecording = true;
+                        stopClicked = false;
+                        btnRecord.setVisibility(View.VISIBLE);
+                        btnStopRecord.setVisibility(View.INVISIBLE);
+                        timer.setVisibility(View.INVISIBLE);
+                        btnRecord.setEnabled(true);
+                    }
+                    if(showPopup){
+                        showPopup = false;
+                        showPopupWindow(v);
+                    }
                 }
             }
         });
@@ -264,6 +278,12 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         dialog.cancel();
+                        continueRecording = true;
+                        stopClicked = false;
+                        btnRecord.setVisibility(View.VISIBLE);
+                        btnStopRecord.setVisibility(View.INVISIBLE);
+                        timer.setVisibility(View.INVISIBLE);
+                        btnRecord.setEnabled(true);
                     }
                 });
         nameFileBuilder.setNegativeButton(this.getString(R.string.dialog_action_delete),
@@ -272,6 +292,12 @@ public class MainActivity extends AppCompatActivity {
 
                         delete(pathSave);
                         dialog.cancel();
+                        continueRecording = true;
+                        stopClicked = false;
+                        btnRecord.setVisibility(View.VISIBLE);
+                        btnStopRecord.setVisibility(View.INVISIBLE);
+                        timer.setVisibility(View.INVISIBLE);
+                        btnRecord.setEnabled(true);
                     }
                 });
 
