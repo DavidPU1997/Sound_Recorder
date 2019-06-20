@@ -317,7 +317,8 @@ public class PlaybackFragment extends DialogFragment {
     private void pausePlaying() {
         mPlayButton.setImageResource(R.drawable.ic_media_play);
         mHandler.removeCallbacks(mRunnable);
-        mMediaPlayer.pause();
+        if(mMediaPlayer != null)
+            mMediaPlayer.pause();
     }
 
     private void resumePlaying() {
