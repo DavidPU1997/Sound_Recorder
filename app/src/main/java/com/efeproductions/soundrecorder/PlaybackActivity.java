@@ -1,6 +1,7 @@
 package com.efeproductions.soundrecorder;
 
 import android.Manifest;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -23,13 +24,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
@@ -56,6 +61,9 @@ public class PlaybackActivity extends AppCompatActivity {
     String[] durations;
     final int REQUEST_PERMISSION_CODE = 1000;
     FragmentManager manager;
+    CheckBox check;
+    List<HashMap<String, String>> listItems;
+    MenuItem deleteSelectedRecordings;
 
     //ZA SWIPE
     float x1, x2, y1, y2;
@@ -70,13 +78,31 @@ public class PlaybackActivity extends AppCompatActivity {
         manager = getSupportFragmentManager();
         myListViewForSongs = (ListView) findViewById(R.id.myListView);
         display();
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        deleteSelectedRecordings = menu.findItem(R.id.deleteRecordings);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.deleteMenu:
+                for(int i = 0; i < myListViewForSongs.getAdapter().getCount(); i++) {
+                    View rowView = myListViewForSongs.getChildAt(i);
+                    CheckBox checkBox = (CheckBox)rowView.findViewById(R.id.checkbox);
+                    checkBox.setVisibility(View.VISIBLE);
+                }
+                deleteSelectedRecordings.setVisible(true);
+                return true;
+            case R.id.renameMenu:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     public ArrayList<File> findSong(File file){
@@ -181,7 +207,7 @@ public class PlaybackActivity extends AppCompatActivity {
             NaslovDatum.put(items[i], dates[i]);
         }
 
-        List<HashMap<String, String>> listItems = new ArrayList<>();
+        listItems = new ArrayList<>();
 
         SimpleAdapter adapter = new SimpleAdapter(this, listItems, R.layout.list_item, new String[]{"First Line", "Second Line"}, new int[]{R.id.text1, R.id.text2});
 
@@ -256,5 +282,46 @@ public class PlaybackActivity extends AppCompatActivity {
     public void finish() {
         super.finish();
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public void onCheckboxClicked(View view) {
+        SparseBooleanArray checked = myListViewForSongs.getCheckedItemPositions();
+
+        for (int i = 0; i < myListViewForSongs.getAdapter().getCount(); i++) {
+            if (checked.get(i)) {
+                // Do something
+            }
+        }
+    }
+
+    public void delete(String path){
+        File file = new File(path);
+        boolean deleted;
+
+        try {
+            if (file.exists()) {
+                deleted = file.delete();
+                Log.d("MainActivity", "Deletion Succesfull");
+            }
+        } catch (Exception e){
+            Log.d("Error pri brisanju", e.toString());
+        }
     }
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/EditModeMenu"
     >
     <item android:title="@string/deleteRecordings"
         android:id="@+id/deleteRecordings"
@@ -8,9 +9,9 @@
         android:visible="false"
         />
     <item android:title="@string/rename"
-        android:id="@+id/Rename"
+        android:id="@+id/renameMenu"
         />
-    <item android:title="@string/delete"
-        android:id="@+id/delete"
+    <item android:title="@string/Delete"
+        android:id="@+id/deleteMenu"
         />
 </menu>
