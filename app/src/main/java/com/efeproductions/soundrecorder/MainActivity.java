@@ -225,11 +225,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void rename(String name) {
+    public void rename(String pathToItemRename, String name) {
 
         String pathDir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + "MyRecordings/";
         /* File (or directory) with old name */
-        File file = new File(pathSave);
+        File file = new File(pathToItemRename);
 
         /* File (or directory) with new name */
         File file2 = new File(pathDir + name);
@@ -269,7 +269,7 @@ public class MainActivity extends AppCompatActivity {
                         try {
                             String value = input.getText().toString().trim() + ".3gp";
                             if(!value.equals(".3gp")){
-                                rename(value);
+                                rename(pathSave, value);
                             }
                             Log.d("pritisnil si ok", "jajaja");
 

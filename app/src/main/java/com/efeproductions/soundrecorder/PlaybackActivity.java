@@ -63,8 +63,6 @@ public class PlaybackActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playback);
         manager = getSupportFragmentManager();
-
-
         myListViewForSongs = (ListView) findViewById(R.id.myListView);
         display();
 
