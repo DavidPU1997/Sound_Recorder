@@ -355,7 +355,16 @@ public class MainActivity extends AppCompatActivity {
             mediaRecorder = null;
         }
     }
-    public void onStop() {
+
+    @Override
+    protected void onStop() {
         super.onStop();
+        if(mediaRecorder != null){
+            mediaRecorder.stop();
+            mediaRecorder.reset();
+            mediaRecorder.release();
+            mediaRecorder = null;
         }
+    }
+
 }

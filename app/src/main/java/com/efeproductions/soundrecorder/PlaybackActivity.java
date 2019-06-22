@@ -57,6 +57,7 @@ public class PlaybackActivity extends AppCompatActivity {
 
     ListView myListViewForSongs;
     String[] items;
+    String[] items2;
     String[] dates;
     String[] durations;
     final int REQUEST_PERMISSION_CODE = 1000;
@@ -78,6 +79,7 @@ public class PlaybackActivity extends AppCompatActivity {
         manager = getSupportFragmentManager();
         myListViewForSongs = (ListView) findViewById(R.id.myListView);
         display();
+
     }
 
     @Override
@@ -165,6 +167,7 @@ public class PlaybackActivity extends AppCompatActivity {
         final ArrayList<File> mySongs = findSong(new File(Environment.getExternalStorageDirectory()+ "/" + "MyRecordings/"));
 
         items = new String[mySongs.size()];
+        items2 = new String[mySongs.size()];
         dates = new String[mySongs.size()];
         durations = new String[mySongs.size()];
 
@@ -213,12 +216,16 @@ public class PlaybackActivity extends AppCompatActivity {
 
         Iterator it = NaslovDatum.entrySet().iterator();
 
+        int iterator_i = 0;
+
         while(it.hasNext()){
             HashMap<String, String> resultsMap = new HashMap<>();
             Map.Entry pair = (Map.Entry)it.next();
             resultsMap.put("First Line", pair.getKey().toString());
             resultsMap.put("Second Line", pair.getValue().toString());
             listItems.add(resultsMap);
+            items2[iterator_i] = pair.getKey().toString();
+            iterator_i++;
         }
 
         myListViewForSongs.setAdapter(adapter);
@@ -227,8 +234,8 @@ public class PlaybackActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                String songName = items[position];
-                String path = Environment.getExternalStorageDirectory().toString() + "/" + "MyRecordings" + "/" + items[position] + ".3gp";
+                String songName = items2[position];
+                String path = Environment.getExternalStorageDirectory().toString() + "/" + "MyRecordings" + "/" + items2[position] + ".3gp";
 
                 try {
                     PlaybackFragment playbackFragment =
@@ -236,12 +243,6 @@ public class PlaybackActivity extends AppCompatActivity {
                     FragmentTransaction transaction = manager.beginTransaction();
                     transaction.add(playbackFragment, "dialog_playback");
                     transaction.commit();
-
-                    /*FragmentTransaction transaction = ((FragmentActivity) myContext)
-                            .getSupportFragmentManager()
-                            .beginTransaction();
-
-                    playbackFragment.show(transaction, "dialog_playback");*/
 
                 } catch (Exception e) {
                     Log.e("Playback Time", "exception", e);
