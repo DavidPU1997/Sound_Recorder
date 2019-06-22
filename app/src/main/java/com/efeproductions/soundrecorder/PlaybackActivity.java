@@ -101,12 +101,25 @@ public class PlaybackActivity extends AppCompatActivity {
                 deleteSelectedRecordings.setVisible(true);
                 return true;
             case R.id.renameMenu:
+
                 return true;
+            case R.id.deleteRecordings:
+                DeleteMyRecordings();
+                display();
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
-
+    public void DeleteMyRecordings(){
+        for(int i = 0; i < myListViewForSongs.getAdapter().getCount(); i++) {
+            View rowView = myListViewForSongs.getChildAt(i);
+            CheckBox checkBox = (CheckBox)rowView.findViewById(R.id.checkbox);
+            if(checkBox.isChecked()){
+                delete(Environment.getExternalStorageDirectory()+ "/" + "MyRecordings/" + items2[i] + ".3gp");
+            }
+        }
+        deleteSelectedRecordings.setVisible(false);
+    }
     public ArrayList<File> findSong(File file){
         ArrayList<File> arrayList = new ArrayList<>();
 
