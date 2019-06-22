@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <item android:title="@string/deleteRecordings"
+        android:id="@+id/deleteRecordings"
+        app:showAsAction="ifRoom"
+        android:visible="false"
+        />
     <item android:title="@string/rename"
-        android:id="@+id/Rename"/>
+        android:id="@+id/Rename"
+        />
     <item android:title="@string/delete"
-        android:id="@+id/delete"/>
+        android:id="@+id/delete"
+        />
 </menu>

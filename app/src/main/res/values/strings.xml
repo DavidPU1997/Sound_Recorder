@@ -19,4 +19,5 @@
     <string name="Delete">delete</string>
     <string name="delete">Delete</string>
     <string name="rename">Rename</string>
+    <string name="deleteRecordings">delete</string>
 </resources>

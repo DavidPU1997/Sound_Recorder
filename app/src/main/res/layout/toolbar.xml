@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="?attr/actionBarSize"
     android:background="@color/colorPrimary"
     android:elevation="4dp"
-    android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+    app:popupTheme="@style/ThemeOverlay.MyTheme"
     app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
     app:title="Sound Recorder"
     app:titleTextColor="@color/white"
@@ -14,6 +14,7 @@
     android:shadowColor="#A8A8A8"
     android:shadowDx="0"
     android:shadowDy="0"
-    android:shadowRadius="5">
+    android:shadowRadius="5"
+    >
 
 </android.support.v7.widget.Toolbar>
