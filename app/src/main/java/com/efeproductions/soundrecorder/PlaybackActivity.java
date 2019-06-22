@@ -72,7 +72,7 @@ public class PlaybackActivity extends AppCompatActivity {
     MenuItem deleteSelectedRecordings;
     String pathSave = "";
 
-    int iterator_rename = 0;
+    boolean[] rename_bool_array;
     //ZA SWIPE
     float x1, x2, y1, y2;
     @Override
@@ -111,18 +111,18 @@ public class PlaybackActivity extends AppCompatActivity {
                 for(int i = 0; i < myListViewForSongs.getAdapter().getCount(); i++) {
                     View rowView = myListViewForSongs.getChildAt(i);
                     CheckBox checkBox = (CheckBox)rowView.findViewById(R.id.checkbox);
+                    checkBox.setTag(i);
                     checkBox.setVisibility(View.VISIBLE);
-                    iterator_rename = i;
                     checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
-                            pathSave = Environment.getExternalStorageDirectory()+ "/" + "MyRecordings/" + items2[iterator_rename] + ".3gp";
+                            int position = (int)buttonView.getTag();
+                            pathSave = Environment.getExternalStorageDirectory()+ "/" + "MyRecordings/" + items2[position] + ".3gp";
                             showPopupWindow();
                         }
                     }
                     );
                 }
-                display();
                 return true;
             case R.id.deleteRecordings:
                 DeleteMyRecordings();
@@ -131,6 +131,7 @@ public class PlaybackActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
     public void DeleteMyRecordings(){
         for(int i = 0; i < myListViewForSongs.getAdapter().getCount(); i++) {
             View rowView = myListViewForSongs.getChildAt(i);
@@ -141,6 +142,7 @@ public class PlaybackActivity extends AppCompatActivity {
         }
         deleteSelectedRecordings.setVisible(false);
     }
+
     public ArrayList<File> findSong(File file){
         ArrayList<File> arrayList = new ArrayList<>();
 
@@ -392,6 +394,7 @@ public class PlaybackActivity extends AppCompatActivity {
                         }
 
                         dialog.cancel();
+                        display();
                     }
                 });
         nameFileBuilder.setNegativeButton(this.getString(R.string.dialog_action_cancel),
