@@ -16,4 +16,7 @@
     <string name="dialog_title_name">Name File</string>
     <string name="dialog_action_ok">OK</string>
     <string name="dialog_action_delete">Delete recording</string>
+    <string name="Delete">delete</string>
+    <string name="delete">Delete</string>
+    <string name="rename">Rename</string>
 </resources>
