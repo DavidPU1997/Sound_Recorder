@@ -1,8 +1,10 @@
 package com.efeproductions.soundrecorder;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -35,8 +37,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -65,7 +70,9 @@ public class PlaybackActivity extends AppCompatActivity {
     CheckBox check;
     List<HashMap<String, String>> listItems;
     MenuItem deleteSelectedRecordings;
+    String pathSave = "";
 
+    int iterator_rename = 0;
     //ZA SWIPE
     float x1, x2, y1, y2;
     @Override
@@ -101,7 +108,21 @@ public class PlaybackActivity extends AppCompatActivity {
                 deleteSelectedRecordings.setVisible(true);
                 return true;
             case R.id.renameMenu:
-
+                for(int i = 0; i < myListViewForSongs.getAdapter().getCount(); i++) {
+                    View rowView = myListViewForSongs.getChildAt(i);
+                    CheckBox checkBox = (CheckBox)rowView.findViewById(R.id.checkbox);
+                    checkBox.setVisibility(View.VISIBLE);
+                    iterator_rename = i;
+                    checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
+                            pathSave = Environment.getExternalStorageDirectory()+ "/" + "MyRecordings/" + items2[iterator_rename] + ".3gp";
+                            showPopupWindow();
+                        }
+                    }
+                    );
+                }
+                display();
                 return true;
             case R.id.deleteRecordings:
                 DeleteMyRecordings();
@@ -298,23 +319,6 @@ public class PlaybackActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public void onCheckboxClicked(View view) {
         SparseBooleanArray checked = myListViewForSongs.getCheckedItemPositions();
 
@@ -337,5 +341,69 @@ public class PlaybackActivity extends AppCompatActivity {
         } catch (Exception e){
             Log.d("Error pri brisanju", e.toString());
         }
+    }
+
+    public void rename(String pathToItemRename, String name) {
+
+        String pathDir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + "MyRecordings/";
+        /* File (or directory) with old name */
+        File file = new File(pathToItemRename);
+
+        /* File (or directory) with new name */
+        File file2 = new File(pathDir + name);
+
+        if (file2.exists()) {
+            try {
+                throw new java.io.IOException("File already exists!");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        /* Rename file */
+        boolean success = file.renameTo(file2);
+        if (!success) {
+            Log.e("Rename File","Couldn't rename file!");
+        } else {
+            Log.i("Rename File","File renamed successfully!");
+        }
+    }
+    public void showPopupWindow(){
+        AlertDialog.Builder nameFileBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.dialog_name_file, null);
+
+        final EditText input = (EditText) view.findViewById(R.id.new_name);
+
+        nameFileBuilder.setTitle(this.getString(R.string.dialog_title_name));
+        nameFileBuilder.setCancelable(false);
+        nameFileBuilder.setPositiveButton(this.getString(R.string.dialog_action_ok),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        try {
+                            String value = input.getText().toString().trim() + ".3gp";
+                            if(!value.equals(".3gp")){
+                                rename(pathSave, value);
+                            }
+                            Log.d("pritisnil si ok", "jajaja");
+
+                        } catch (Exception e) {
+                            Log.d("Error pri temule", e.toString());
+                        }
+
+                        dialog.cancel();
+                    }
+                });
+        nameFileBuilder.setNegativeButton(this.getString(R.string.dialog_action_cancel),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        nameFileBuilder.setView(view);
+        AlertDialog alert = nameFileBuilder.create();
+        alert.show();
+
     }
 }
