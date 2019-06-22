@@ -35,9 +35,6 @@ public class PlaybackFragment extends DialogFragment {
 
     private static final String LOG_TAG = "PlaybackFragment";
 
-    private static final String ARG_ITEM = "recording_item";
-    //private RecordingItem item;
-
     private Handler mHandler = new Handler();
 
     private MediaPlayer mMediaPlayer = null;

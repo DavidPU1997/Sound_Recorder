@@ -32,7 +32,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
-import android.support.v7.widget.Toolbar;
 
 
 import java.io.File;
@@ -64,11 +63,6 @@ public class PlaybackActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playback);
         manager = getSupportFragmentManager();
-
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(myToolbar);
-
-
         myListViewForSongs = (ListView) findViewById(R.id.myListView);
         display();
 
