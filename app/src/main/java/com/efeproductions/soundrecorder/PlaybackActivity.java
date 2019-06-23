@@ -21,6 +21,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,12 +34,14 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -98,6 +101,55 @@ public class PlaybackActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
+        myListViewForSongs.setOnScrollListener(new AbsListView.OnScrollListener() {
+            private int mLastFirstVisibleItem;
+
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem,
+                                 int visibleItemCount, int totalItemCount) {
+
+                /*if(mLastFirstVisibleItem<firstVisibleItem)
+                {
+                    Log.i("SCROLLING DOWN","TRUE");
+                }
+                if(mLastFirstVisibleItem>firstVisibleItem)
+                {
+                    Log.i("SCROLLING UP","TRUE");
+                }
+                mLastFirstVisibleItem=firstVisibleItem;*/
+
+                if(mLastFirstVisibleItem>firstVisibleItem || mLastFirstVisibleItem<firstVisibleItem)
+                {
+                    for(int i = 0; i < myListViewForSongs.getAdapter().getCount(); i++) {
+                        View rowView = myListViewForSongs.getChildAt(i);
+                        if (rowView != null) {
+                            CheckBox checkBox = (CheckBox)rowView.findViewById(R.id.checkbox);
+                            if(checkBox.getTag() == null) {
+                                checkBox.setTag(i);
+                                checkBox.setVisibility(View.VISIBLE);
+                                checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                        @Override
+                                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                            int position = (int) buttonView.getTag();
+                                            pathSave = Environment.getExternalStorageDirectory() + "/" + "MyRecordings/" + items2[position] + ".3gp";
+                                            showPopupWindow();
+                                        }
+                                    }
+                                );
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+
         switch (item.getItemId()) {
             case R.id.deleteMenu:
                 for(int i = 0; i < myListViewForSongs.getAdapter().getCount(); i++) {
@@ -111,8 +163,12 @@ public class PlaybackActivity extends AppCompatActivity {
                 if(deleteSelectedRecordings.isVisible()){
                     deleteSelectedRecordings.setVisible(false);
                 }
+
                 for(int i = 0; i < myListViewForSongs.getAdapter().getCount(); i++) {
                     View rowView = myListViewForSongs.getChildAt(i);
+                    if (rowView == null) {
+                        return false;
+                    }
                     CheckBox checkBox = (CheckBox)rowView.findViewById(R.id.checkbox);
                     checkBox.setTag(i);
                     checkBox.setVisibility(View.VISIBLE);
