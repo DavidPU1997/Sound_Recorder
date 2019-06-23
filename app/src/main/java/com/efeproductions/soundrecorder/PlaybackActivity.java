@@ -487,6 +487,7 @@ public class PlaybackActivity extends AppCompatActivity {
 
                         dialog.cancel();
                         display();
+                        cancelSelectedRecordings.setVisible(false);
                     }
                 });
         nameFileBuilder.setNegativeButton(this.getString(R.string.dialog_action_cancel),
@@ -525,13 +526,13 @@ public class PlaybackActivity extends AppCompatActivity {
 
                         dialog.cancel();
                         display();
+                        cancelSelectedRecordings.setVisible(false);
                     }
                 });
         nameFileBuilder.setNegativeButton(this.getString(R.string.dialog_action_cancel_yes),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
-                        display();
                     }
                 });
 
