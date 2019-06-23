@@ -72,7 +72,6 @@ public class PlaybackActivity extends AppCompatActivity {
     FragmentManager manager;
     CheckBox check;
     List<HashMap<String, String>> listItems;
-    MenuItem deleteSelectedRecordings;
     String pathSave = "";
     boolean renameStop = false;
     boolean deleteMode = false;
@@ -99,7 +98,6 @@ public class PlaybackActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        deleteSelectedRecordings = menu.findItem(R.id.deleteRecordings);
         return true;
     }
 
@@ -194,14 +192,10 @@ public class PlaybackActivity extends AppCompatActivity {
                         );
                     }
                 }
-                deleteSelectedRecordings.setVisible(true);
                 return true;
             case R.id.renameMenu:
                 editMode = true;
                 deleteMode = false;
-                if (deleteSelectedRecordings.isVisible()) {
-                    deleteSelectedRecordings.setVisible(false);
-                }
 
                 for (int i = 0; i < myListViewForSongs.getLastVisiblePosition() - myListViewForSongs.getFirstVisiblePosition() + 1; i++) {
                     View rowView = myListViewForSongs.getChildAt(i);
@@ -224,21 +218,9 @@ public class PlaybackActivity extends AppCompatActivity {
                 }
 
                 return true;
-            case R.id.deleteRecordings:
-                DeleteMyRecordings();
-                display();
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    public void DeleteMyRecordings(){
-        for(int i = 0; i < deleteItems.length; i++) {
-            if(deleteItems[i]){
-                delete(Environment.getExternalStorageDirectory()+ "/" + "MyRecordings/" + items2[i] + ".3gp");
-            }
-        }
-        deleteSelectedRecordings.setVisible(false);
     }
 
     public ArrayList<File> findSong(File file){
@@ -520,15 +502,13 @@ public class PlaybackActivity extends AppCompatActivity {
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.dialog_name_file_delete, null);
 
-        final EditText input = (EditText) view.findViewById(R.id.delete_question);
-
         nameFileBuilder.setTitle(this.getString(R.string.delete_question_a));
         nameFileBuilder.setCancelable(false);
         nameFileBuilder.setPositiveButton(this.getString(R.string.dialog_action_ok),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         try {
-
+                            delete(pathSave);
                             Log.d("pritisnil si ok", "jajaja");
 
                         } catch (Exception e) {
@@ -543,6 +523,7 @@ public class PlaybackActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
+                        display();
                     }
                 });
 

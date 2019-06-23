@@ -3,11 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/EditModeMenu"
     >
-    <item android:title="@string/deleteRecordings"
-        android:id="@+id/deleteRecordings"
-        app:showAsAction="ifRoom"
-        android:visible="false"
-        />
     <item android:title="@string/rename"
         android:id="@+id/renameMenu"
         />
