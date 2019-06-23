@@ -155,7 +155,10 @@ public class PlaybackActivity extends AppCompatActivity {
                                         @Override
                                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                                             int position = (int) buttonView.getTag();
-                                            deleteItems[position] = !deleteItems[position];
+                                            pathSave = Environment.getExternalStorageDirectory() + "/" + "MyRecordings/" + items2[position] + ".3gp";
+                                            showPopupWindowDelete();
+                                            CheckBox checkBox = (CheckBox)buttonView.findViewById(R.id.checkbox);
+                                            checkBox.setChecked(false);
                                         }
                                     }
                                 );
@@ -173,16 +176,23 @@ public class PlaybackActivity extends AppCompatActivity {
                 editMode = false;
                 for (int i = 0; i < myListViewForSongs.getLastVisiblePosition() - myListViewForSongs.getFirstVisiblePosition() + 1; i++) {
                     View rowView = myListViewForSongs.getChildAt(i);
-                    CheckBox checkBox = (CheckBox) rowView.findViewById(R.id.checkbox);
-                    checkBox.setVisibility(View.VISIBLE);
-                    checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                            @Override
-                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                                int position = (int) buttonView.getTag();
-                                deleteItems[position] = !deleteItems[position];
+                    if(rowView != null) {
+
+                        CheckBox checkBox = (CheckBox) rowView.findViewById(R.id.checkbox);
+                        checkBox.setTag(i + myListViewForSongs.getFirstVisiblePosition());
+                        checkBox.setVisibility(View.VISIBLE);
+                        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                @Override
+                                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                    int position = (int) buttonView.getTag();
+                                    pathSave = Environment.getExternalStorageDirectory() + "/" + "MyRecordings/" + items2[position] + ".3gp";
+                                    showPopupWindowDelete();
+                                    CheckBox checkBox = (CheckBox) buttonView.findViewById(R.id.checkbox);
+                                    checkBox.setChecked(false);
+                                }
                             }
-                        }
-                    );
+                        );
+                    }
                 }
                 deleteSelectedRecordings.setVisible(true);
                 return true;
@@ -192,27 +202,27 @@ public class PlaybackActivity extends AppCompatActivity {
                 if (deleteSelectedRecordings.isVisible()) {
                     deleteSelectedRecordings.setVisible(false);
                 }
-                if (!renameStop){
-                    renameStop = true;
 
-                    for (int i = 0; i < myListViewForSongs.getLastVisiblePosition() - myListViewForSongs.getFirstVisiblePosition() + 1; i++) {
-                        View rowView = myListViewForSongs.getChildAt(i);
-                        if(rowView != null) {
-                            CheckBox checkBox = (CheckBox) rowView.findViewById(R.id.checkbox);
-                            checkBox.setTag(i + myListViewForSongs.getFirstVisiblePosition());
-                            checkBox.setVisibility(View.VISIBLE);
-                            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                                    @Override
-                                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                                        int position = (int) buttonView.getTag();
-                                        pathSave = Environment.getExternalStorageDirectory() + "/" + "MyRecordings/" + items2[position] + ".3gp";
-                                        showPopupWindow();
-                                    }
+                for (int i = 0; i < myListViewForSongs.getLastVisiblePosition() - myListViewForSongs.getFirstVisiblePosition() + 1; i++) {
+                    View rowView = myListViewForSongs.getChildAt(i);
+                    if(rowView != null) {
+                        CheckBox checkBox = (CheckBox) rowView.findViewById(R.id.checkbox);
+                        checkBox.setTag(i + myListViewForSongs.getFirstVisiblePosition());
+                        checkBox.setVisibility(View.VISIBLE);
+                        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                @Override
+                                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                    int position = (int) buttonView.getTag();
+                                    pathSave = Environment.getExternalStorageDirectory() + "/" + "MyRecordings/" + items2[position] + ".3gp";
+                                    showPopupWindow();
+                                    CheckBox checkBox = (CheckBox)buttonView.findViewById(R.id.checkbox);
+                                    checkBox.setChecked(false);
                                 }
-                            );
-                        }
+                            }
+                        );
                     }
                 }
+
                 return true;
             case R.id.deleteRecordings:
                 DeleteMyRecordings();
@@ -490,6 +500,46 @@ public class PlaybackActivity extends AppCompatActivity {
                     }
                 });
         nameFileBuilder.setNegativeButton(this.getString(R.string.dialog_action_cancel),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        nameFileBuilder.setView(view);
+        AlertDialog alert = nameFileBuilder.create();
+        alert.show();
+
+    }
+
+
+
+
+    public void showPopupWindowDelete(){
+        AlertDialog.Builder nameFileBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.dialog_name_file_delete, null);
+
+        final EditText input = (EditText) view.findViewById(R.id.delete_question);
+
+        nameFileBuilder.setTitle(this.getString(R.string.delete_question_a));
+        nameFileBuilder.setCancelable(false);
+        nameFileBuilder.setPositiveButton(this.getString(R.string.dialog_action_ok),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        try {
+
+                            Log.d("pritisnil si ok", "jajaja");
+
+                        } catch (Exception e) {
+                            Log.d("Error pri temule", e.toString());
+                        }
+
+                        dialog.cancel();
+                        display();
+                    }
+                });
+        nameFileBuilder.setNegativeButton(this.getString(R.string.dialog_action_cancel_yes),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
