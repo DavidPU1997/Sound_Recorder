@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                         //stevilo recordingov
                         int stRec = countRecordings();
-                        stRec++;
+                        //stRec++;
                         Stevilo = Integer.toString(stRec);
                         pathSave = path + "/" + "MyRecordings/" + "New Recording " + Stevilo + ".3gp";
                         setupMediaRecorder();
@@ -210,12 +210,23 @@ public class MainActivity extends AppCompatActivity {
         String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + "MyRecordings/";
         File dir = new File(path);
         File[] files = dir.listFiles();
+
         if(files == null){
-            return 0;
+            return 1;
         }
-        else {
-            return files.length;
+
+        int stevilo = 1;
+        for(int i = 0; i <= files.length; i++){
+            path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + "MyRecordings/" + "New Recording " + stevilo + ".3gp";
+            File file = new File(path);
+            if(file.exists()){
+                stevilo++;
+            }
+            else{
+                return stevilo;
+            }
         }
+        return 1;
     }
 
     public void callPlayback(View v) {
