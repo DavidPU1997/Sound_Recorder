@@ -365,6 +365,14 @@ public class MainActivity extends AppCompatActivity {
             mediaRecorder.release();
             mediaRecorder = null;
         }
+        if(!btnRecord.isEnabled()){
+            btnRecord.setEnabled(true);
+            btnRecord.setVisibility(View.VISIBLE);
+            btnStopRecord.setVisibility(View.INVISIBLE);
+            btnStopRecord.setEnabled(false);
+            timer.setVisibility(View.INVISIBLE);
+            timer.stop();
+        }
     }
 
     @Override
@@ -376,6 +384,39 @@ public class MainActivity extends AppCompatActivity {
             mediaRecorder.release();
             mediaRecorder = null;
         }
+        if(!btnRecord.isEnabled()){
+            btnRecord.setEnabled(true);
+            btnRecord.setVisibility(View.VISIBLE);
+            btnStopRecord.setVisibility(View.INVISIBLE);
+            btnStopRecord.setEnabled(false);
+            timer.setVisibility(View.INVISIBLE);
+            timer.stop();
+        }
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        if(!btnRecord.isEnabled()){
+            btnRecord.setEnabled(true);
+            btnRecord.setVisibility(View.VISIBLE);
+            btnStopRecord.setVisibility(View.INVISIBLE);
+            btnStopRecord.setEnabled(false);
+            timer.setVisibility(View.INVISIBLE);
+            timer.stop();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(!btnRecord.isEnabled()){
+            btnRecord.setEnabled(true);
+            btnRecord.setVisibility(View.VISIBLE);
+            btnStopRecord.setVisibility(View.INVISIBLE);
+            btnStopRecord.setEnabled(false);
+            timer.setVisibility(View.INVISIBLE);
+            timer.stop();
+        }
+    }
 }
