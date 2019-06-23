@@ -72,6 +72,7 @@ public class PlaybackActivity extends AppCompatActivity {
     FragmentManager manager;
     CheckBox check;
     List<HashMap<String, String>> listItems;
+    MenuItem cancelSelectedRecordings;
     String pathSave = "";
     boolean renameStop = false;
     boolean deleteMode = false;
@@ -98,6 +99,7 @@ public class PlaybackActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        cancelSelectedRecordings = menu.findItem(R.id.cancelRecordings);
         return true;
     }
 
@@ -192,6 +194,7 @@ public class PlaybackActivity extends AppCompatActivity {
                         );
                     }
                 }
+                cancelSelectedRecordings.setVisible(true);
                 return true;
             case R.id.renameMenu:
                 editMode = true;
@@ -216,8 +219,13 @@ public class PlaybackActivity extends AppCompatActivity {
                         );
                     }
                 }
+                cancelSelectedRecordings.setVisible(true);
 
                 return true;
+            case R.id.cancelRecordings:
+                display();
+                cancelSelectedRecordings.setVisible(false);
+
             default:
                 return super.onOptionsItemSelected(item);
         }

@@ -22,4 +22,5 @@
     <string name="dialog_action_cancel">Cancel</string>
     <string name="delete_question_a">Delete this file?</string>
     <string name="dialog_action_cancel_yes">Cancel</string>
+    <string name="reset">CANCEL</string>
 </resources>
