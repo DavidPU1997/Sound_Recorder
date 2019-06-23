@@ -108,6 +108,9 @@ public class PlaybackActivity extends AppCompatActivity {
                 deleteSelectedRecordings.setVisible(true);
                 return true;
             case R.id.renameMenu:
+                if(deleteSelectedRecordings.isVisible()){
+                    deleteSelectedRecordings.setVisible(false);
+                }
                 for(int i = 0; i < myListViewForSongs.getAdapter().getCount(); i++) {
                     View rowView = myListViewForSongs.getChildAt(i);
                     CheckBox checkBox = (CheckBox)rowView.findViewById(R.id.checkbox);
